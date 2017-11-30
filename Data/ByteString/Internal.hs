@@ -92,7 +92,8 @@ import Foreign.C.Types          (CInt, CSize, CULong)
 import Foreign.C.String         (CString)
 
 #if !(MIN_VERSION_base(4,11,0)) && MIN_VERSION_base(4,9,0)
-import Data.Semigroup           (Semigroup((<>)))
+import Data.Semigroup           (Semigroup((<>), sconcat))
+import Data.List.NonEmpty       (NonEmpty ((:|)))
 #endif
 #if !(MIN_VERSION_base(4,8,0))
 import Data.Monoid              (Monoid(..))
@@ -156,6 +157,7 @@ instance Ord ByteString where
 #if MIN_VERSION_base(4,9,0)
 instance Semigroup ByteString where
     (<>)    = append
+    sconcat (b:|bs) = concat (b:bs)
 #endif
 
 instance Monoid ByteString where
